@@ -24,29 +24,31 @@ async function loadMenuData() {
     renderAllItems();
   } catch (error) {
     console.error("Erro:", error);
-    // Fallback para caso o arquivo não carregue
-    menuContainer.innerHTML = `
-      <div class="error-message">
-        <p>Não foi possível carregar o cardápio no momento.</p>
-        <p>Por favor, tente novamente mais tarde ou entre em contato conosco.</p>
-      </div>
-    `;
+    showErrorMessage();
   }
+}
+
+function showErrorMessage() {
+  menuContainer.innerHTML = `
+    <div class="error-message">
+      <p>Não foi possível carregar o cardápio no momento.</p>
+      <p>Por favor, tente novamente mais tarde ou entre em contato conosco.</p>
+    </div>
+  `;
 }
 
 // Renderizar categorias no menu
 function renderCategories() {
-  // Limpa o menu de categorias
   categoriesMenu.innerHTML = "";
 
-  // Adiciona botão "Todos"
+  // Botão "Todos"
   const allButton = document.createElement("button");
   allButton.className = "categoria-botao active";
   allButton.textContent = "Todos";
   allButton.addEventListener("click", renderAllItems);
   categoriesMenu.appendChild(allButton);
 
-  // Adiciona as categorias do JSON
+  // Demais categorias
   menuData.categorias.forEach((category) => {
     const button = document.createElement("button");
     button.className = "categoria-botao";
@@ -65,16 +67,15 @@ function renderAllItems() {
     section.className = "secao-menu";
     section.id = `category-${category.id}`;
     section.innerHTML = `
-      <h2 class="secao-titulo">${category.icone}${category.nome}</h2>
-      <div class="secao-categoria" id="items-${category.id}"></div>
+      <h2 class="secao-titulo">${category.icone} ${category.nome}</h2>
+      <div class="secao-categoria"></div>
     `;
     menuContainer.appendChild(section);
-
-    renderItems(category.itens, `items-${category.id}`);
+    renderItems(category.itens, section.querySelector('.secao-categoria'));
   });
 
-  // Atualiza botão ativo
   updateActiveButton("Todos");
+  setupCartEventDelegation();
 }
 
 // Renderizar itens de uma categoria específica
@@ -88,81 +89,80 @@ function renderCategoryItems(categoryId) {
   section.className = "secao-menu";
   section.id = `category-${category.id}`;
   section.innerHTML = `
-    <h2 class="secao-titulo">${category.nome}</h2>
-    <div class="secao-categoria" id="items-${category.id}"></div>
+    <h2 class="secao-titulo">${category.icone} ${category.nome}</h2>
+    <div class="secao-categoria"></div>
   `;
   menuContainer.appendChild(section);
+  renderItems(category.itens, section.querySelector('.secao-categoria'));
 
-  renderItems(category.itens, `items-${category.id}`);
-
-  // Atualiza botão ativo
   updateActiveButton(category.nome);
+  setupCartEventDelegation();
 }
 
-// Atualizar botão ativo no menu de categorias
+// Atualizar botão ativo
 function updateActiveButton(activeCategoryName) {
   document.querySelectorAll(".categoria-botao").forEach((button) => {
-    button.classList.toggle(
-      "active",
-      button.textContent === activeCategoryName
-    );
+    button.classList.toggle("active", button.textContent === activeCategoryName);
   });
 }
 
 // Renderizar lista de itens
-function renderItems(items, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
+function renderItems(items, container) {
   container.innerHTML = "";
 
   items.forEach((item) => {
     const itemElement = document.createElement("article");
     itemElement.className = "secao-item";
+    itemElement.dataset.itemId = item.id;
     itemElement.innerHTML = `
-      <img src="${item.img || ""}" alt="${
-      item.nome
-    }" class="item-image">
+      <img src="${item.img || ''}" alt="${item.nome}" class="item-image">
       <div class="item-info">
         <h3 class="item-nome">${item.nome}</h3>
         <p class="item-descricao">${item.descricao}</p>
-        <div class="item-preco">R$ ${item.preco
-          .toFixed(2)
-          .replace(".", ",")}</div>
+        <div class="item-preco">R$ ${item.preco.toFixed(2).replace(".", ",")}</div>
         <button class="add-to-cart">Adicionar ao Carrinho</button>
       </div>
     `;
     container.appendChild(itemElement);
   });
-
-  // Adiciona eventos aos novos botões
-  addCartEventListeners();
 }
 
-// Adicionar eventos aos botões "Adicionar ao Carrinho"
-function addCartEventListeners() {
-  document.querySelectorAll(".add-to-cart").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const itemElement = e.target.closest(".secao-item");
-      const name = itemElement.querySelector(".item-nome").textContent;
-      const priceText = itemElement.querySelector(".item-preco").textContent;
-      const price = parseFloat(
-        priceText.replace("R$", "").replace(",", ".").trim()
-      );
+// Configuração da delegação de eventos
+function setupCartEventDelegation() {
+  // Remove event listeners antigos
+  document.querySelectorAll('.secao-categoria').forEach(container => {
+    container.replaceWith(container.cloneNode(true));
+  });
 
-      addItemToCart(name, price);
-
-      // Efeito de animação no botão
-      const originalText = button.textContent;
-      button.textContent = "✓ Adicionado";
-      button.style.backgroundColor = "var(--accepted-color)";
-
-      setTimeout(() => {
-        button.textContent = originalText;
-        button.style.backgroundColor = "";
-      }, 2000);
+  // Adiciona delegação de eventos
+  document.querySelectorAll('.secao-categoria').forEach(container => {
+    container.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-cart')) {
+        handleAddToCart(e);
+      }
     });
   });
+}
+
+// Função para adicionar ao carrinho
+function handleAddToCart(e) {
+  const button = e.target;
+  const itemElement = button.closest(".secao-item");
+  const name = itemElement.querySelector(".item-nome").textContent;
+  const priceText = itemElement.querySelector(".item-preco").textContent;
+  const price = parseFloat(priceText.replace("R$", "").replace(",", ".").trim());
+
+  addItemToCart(name, price);
+
+  // Efeito visual
+  const originalText = button.textContent;
+  button.textContent = "✓ Adicionado";
+  button.style.backgroundColor = "var(--accepted-color)";
+
+  setTimeout(() => {
+    button.textContent = originalText;
+    button.style.backgroundColor = "";
+  }, 2000);
 }
 
 // Funções do carrinho
@@ -179,29 +179,6 @@ function addItemToCart(name, price) {
     });
   }
 
-  updateCartCount();
-}
-
-function decreaseItem(index) {
-  if (cart[index].quantity > 1) {
-    cart[index].quantity -= 1;
-  } else {
-    cart.splice(index, 1);
-  }
-
-  updateCartModal();
-  updateCartCount();
-}
-
-function increaseItem(index) {
-  cart[index].quantity += 1;
-  updateCartModal();
-  updateCartCount();
-}
-
-function removeItem(index) {
-  cart.splice(index, 1);
-  updateCartModal();
   updateCartCount();
 }
 
@@ -237,13 +214,16 @@ function updateCartModal() {
       </div>
     `;
     cartItemsContainer.appendChild(itemElement);
-
     total += item.price * item.quantity;
   });
 
   cartTotalPrice.textContent = total.toFixed(2).replace(".", ",");
 
-  // Adiciona eventos aos novos botões
+  // Adiciona eventos aos controles do carrinho
+  setupCartControls();
+}
+
+function setupCartControls() {
   document.querySelectorAll(".decrease-item").forEach((button) => {
     button.addEventListener("click", (e) => {
       const index = e.target.getAttribute("data-index");
@@ -266,6 +246,28 @@ function updateCartModal() {
   });
 }
 
+function decreaseItem(index) {
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+  updateCartModal();
+  updateCartCount();
+}
+
+function increaseItem(index) {
+  cart[index].quantity += 1;
+  updateCartModal();
+  updateCartCount();
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  updateCartModal();
+  updateCartCount();
+}
+
 // Finalizar pedido
 checkoutBtn.addEventListener("click", () => {
   if (cart.length === 0) return;
@@ -273,33 +275,19 @@ checkoutBtn.addEventListener("click", () => {
   checkoutBtn.textContent = "Processando...";
   checkoutBtn.classList.add("loading");
 
-  // Simula o processamento
   setTimeout(() => {
-    const total = cart.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const itemsText = cart
-      .map(
-        (item) =>
-          `${item.name} (${item.quantity}x) - R$ ${(
-            item.price * item.quantity
-          ).toFixed(2)}`
-      )
+      .map(item => `${item.name} (${item.quantity}x) - R$ ${(item.price * item.quantity).toFixed(2)}`)
       .join("\n");
 
-    const message = `Olá, gostaria de fazer o seguinte pedido:\n\n${itemsText}\n\nTotal: R$ ${total.toFixed(
-      2
-    )}`;
-    const whatsappUrl = `https://wa.me/21999999999?text=${encodeURIComponent(
-      message
-    )}`;
+    const message = `Olá, gostaria de fazer o seguinte pedido:\n\n${itemsText}\n\nTotal: R$ ${total.toFixed(2)}`;
+    const whatsappUrl = `https://wa.me/21999999999?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, "_blank");
     cart = [];
     updateCartModal();
     updateCartCount();
-
     checkoutBtn.textContent = "Finalizar Pedido";
     checkoutBtn.classList.remove("loading");
     cartModal.style.display = "none";
@@ -310,7 +298,6 @@ checkoutBtn.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadMenuData();
 
-  // Configuração do carrinho
   document.getElementById("cart").addEventListener("click", () => {
     updateCartModal();
     cartModal.style.display = "block";

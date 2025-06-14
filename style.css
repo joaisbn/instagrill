@@ -137,6 +137,11 @@ body {
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.secao-item > * {
+  pointer-events: auto;
 }
 
 .secao-item:hover {
@@ -182,6 +187,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  pointer-events: auto !important;
 }
 
 .add-to-cart:hover {
@@ -321,6 +327,20 @@ footer {
   padding: var(--spacing-large);
   background-color: var(--primary-dark);
   color: var(--text-on-dark);
+}
+
+.error-message {
+  padding: 20px;
+  background-color: #ffebee;
+  border: 1px solid #ef9a9a;
+  border-radius: 8px;
+  color: #c62828;
+  text-align: center;
+  margin: 20px;
+}
+
+.error-message p {
+  margin: 10px 0;
 }
 
 /* Responsividade */
