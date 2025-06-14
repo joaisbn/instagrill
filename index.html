@@ -22,7 +22,7 @@
 
   <section class="logo">
     <img src="images/logo.jpg" />
-    <h1>InstaGrill</h1>
+    <h1>InstaGrill &#x1F525;&#x1F356;</h1>
     <p>Churrasco com o sabor que você ama &#x2764;</p>
   </section>
 
@@ -39,7 +39,7 @@
   <main>
     <!-- Categoria -->
     <section class="secao-menu" id="espetinhos">
-      <h2 class="secao-titulo">Espetinhos</h2>
+      <h2 class="secao-titulo">&#x1F361; Espetinhos</h2>
       <div class="secao-categoria">
         <!-- Item -->
         <article class="secao-item">
@@ -56,7 +56,7 @@
 
     <!-- Categoria -->
     <section class="secao-menu" id="acompanhamentos">
-      <h2 class="secao-titulo">Acompanhamentos</h2>
+      <h2 class="secao-titulo">&#x1F956; Acompanhamentos</h2>
       <div class="secao-categoria">
         <!-- Item -->
         <article class="secao-item">
@@ -73,7 +73,7 @@
 
     <!-- Categoria -->
     <section class="secao-menu" id="pratos">
-      <h2 class="secao-titulo">Pratos</h2>
+      <h2 class="secao-titulo">&#x1F374; Pratos</h2>
       <div class="secao-categoria">
         <!-- Item -->
         <article class="secao-item">
@@ -88,9 +88,9 @@
       </div>
     </section>
 
-        <!-- Categoria -->
+    <!-- Categoria -->
     <section class="secao-menu" id="bebidas">
-      <h2 class="secao-titulo">Bebidas</h2>
+      <h2 class="secao-titulo">&#x1F964; Bebidas</h2>
       <div class="secao-categoria">
         <!-- Item -->
         <article class="secao-item">
@@ -115,6 +115,19 @@
     </span>
     <span id="cart-count" class="cart-item-count">0</span>
   </button>
+
+  <!-- Modal de Carrinho -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Seu Pedido</h2>
+      <div id="cart-items"></div>
+      <div class="cart-total">
+        <strong>Total: R$ <span id="cart-total-price">0,00</span></strong>
+      </div>
+      <button id="checkout-btn" class="checkout-btn">Finalizar Pedido</button>
+    </div>
+  </div>
 
   <!-- Rodapé -->
   <footer>
