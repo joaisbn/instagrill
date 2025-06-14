@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cardápio digital do InstaGrill - Churrasco com o sabor que você ama">
+  <meta name="theme-color" content="#F20505">
+  <title>InstaGrill</title>
+  <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_cart" />
+</head>
+
+<body>
+  <section class="top">
+    <header class="banner">
+      <img src="images/banner.jpg" alt="InstaGrill" />
+    </header>
+  </section>
+
+  <section class="logo">
+    <img src="images/logo.jpg" />
+    <h1>InstaGrill</h1>
+    <p>Churrasco com o sabor que você ama &#x2764;</p>
+  </section>
+
+  <!-- Menu de Categorias -->
+  <section class="categorias-menu">
+    <a href="#todos"><button class="categoria-botao active">Todos</button></a>
+    <a href="#espetinhos"><button class="categoria-botao">Espetinhos</button></a>
+    <a href="#acompanhamentos"><button class="categoria-botao">Acompanhamentos</button></a>
+    <a href="#pratos"><button class="categoria-botao">Pratos</button></a>
+    <a href="#bebidas"><button class="categoria-botao">Bebidas</button></a>
+  </section>
+
+  <!-- Lista de Categorias -->
+  <main>
+    <!-- Categoria -->
+    <section class="secao-menu" id="espetinhos">
+      <h2 class="secao-titulo">Espetinhos</h2>
+      <div class="secao-categoria">
+        <!-- Item -->
+        <article class="secao-item">
+          <img src="/api/placeholder/300/180" alt="Alcatra" class="item-image">
+          <div class="item-info">
+            <h3 class="item-nome">Alcatra</h3>
+            <p class="item-descricao">Espetinho de alcatra.</p>
+            <div class="item-preco">R$ 10,00</div>
+            <button class="add-to-cart">Adicionar ao Carrinho</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Categoria -->
+    <section class="secao-menu" id="acompanhamentos">
+      <h2 class="secao-titulo">Acompanhamentos</h2>
+      <div class="secao-categoria">
+        <!-- Item -->
+        <article class="secao-item">
+          <img src="/api/placeholder/300/180" alt="Pão de Alho" class="item-image">
+          <div class="item-info">
+            <h3 class="item-nome">Pão de Alho</h3>
+            <p class="item-descricao">Pão de alho.</p>
+            <div class="item-preco">R$ 4,00</div>
+            <button class="add-to-cart">Adicionar ao Carrinho</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Categoria -->
+    <section class="secao-menu" id="pratos">
+      <h2 class="secao-titulo">Pratos</h2>
+      <div class="secao-categoria">
+        <!-- Item -->
+        <article class="secao-item">
+          <img src="/api/placeholder/300/180" alt="Jantinha" class="item-image">
+          <div class="item-info">
+            <h3 class="item-nome">Jantinha</h3>
+            <p class="item-descricao">Arroz, Salpicão, Farofa e Vinagrete.</p>
+            <div class="item-preco">R$ 14,00</div>
+            <button class="add-to-cart">Adicionar ao Carrinho</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+        <!-- Categoria -->
+    <section class="secao-menu" id="bebidas">
+      <h2 class="secao-titulo">Bebidas</h2>
+      <div class="secao-categoria">
+        <!-- Item -->
+        <article class="secao-item">
+          <img src="/api/placeholder/300/180" alt="Água Mineral" class="item-image">
+          <div class="item-info">
+            <h3 class="item-nome">Água Mineral</h3>
+            <p class="item-descricao">Água mineral sem gás.</p>
+            <div class="item-preco">R$ 3,00</div>
+            <button class="add-to-cart">Adicionar ao Carrinho</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+  <!-- Fim - Lista de Categorias -->
+
+  <!-- Carrinho de Compras -->
+  <button id="cart" class="cart">
+    <span class="material-symbols-outlined">
+      shopping_cart
+    </span>
+    <span id="cart-count" class="cart-item-count">0</span>
+  </button>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>
+      <a href="https://www.instagram.com/instagrill.churrasco/" target="_blank" rel="noopener noreferrer">
+        <img class="social-icon" src="images/icons-instagram-48.png" alt="Instagram" />
+      </a>
+    </p>
+    <p>&copy; 2025 InstaGrill</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
