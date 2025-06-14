@@ -1,0 +1,116 @@
+{
+    "categorias": [
+        {
+            "id": 1,
+            "nome": "Espetinhos",
+            "icone": "&#x1F361;",
+            "itens": [
+                {
+                    "id": 101,
+                    "nome": "Alcatra",
+                    "descricao": "Espeto de alcatra suína temperada",
+                    "preco": 10.00,
+                    "img": "images/espetos/alcatra.jpg"
+                },
+                {
+                    "id": 102,
+                    "nome": "Medalhão",
+                    "descricao": "Medalhão de filé mignon",
+                    "preco": 10.00,
+                    "img": "images/espetos/medalhao.jpg"
+                },
+                {
+                    "id": 103,
+                    "nome": "Queijo Coalho",
+                    "descricao": "Queijo coalho grelhado",
+                    "preco": 8.00,
+                    "img": "images/espetos/queijo-coalho.jpg"
+                },
+                {
+                    "id": 104,
+                    "nome": "Salsichão",
+                    "descricao": "Salsichão especial defumado",
+                    "preco": 8.00,
+                    "img": "images/espetos/salsichao.jpg"
+                },
+                {
+                    "id": 105,
+                    "nome": "Cafta Recheada",
+                    "descricao": "Cafta recheada com queijo",
+                    "preco": 9.00,
+                    "img": "images/espetos/cafta.jpg"
+                },
+                {
+                    "id": 106,
+                    "nome": "Linguiça Toscana",
+                    "descricao": "Linguiça toscana artesanal",
+                    "preco": 9.00,
+                    "img": "images/espetos/linguica.jpg"
+                },
+                {
+                    "id": 107,
+                    "nome": "Frango a Passarinho",
+                    "descricao": "Pedaços de frango temperados",
+                    "preco": 9.00,
+                    "img": "images/espetos/frango.jpg"
+                },
+                {
+                    "id": 108,
+                    "nome": "Misto",
+                    "descricao": "Espeto misto de carne e frango",
+                    "preco": 9.00,
+                    "img": "images/espetos/misto.jpg"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "nome": "Acompanhamentos",
+            "icone": "&#x1F956;",
+            "itens": [
+                {
+                    "id": 201,
+                    "nome": "Pão de Alho",
+                    "descricao": "Pão de alho caseiro",
+                    "preco": 4.00,
+                    "img": "images/acompanhamentos/pao-alho.jpg"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "nome": "Pratos",
+            "icone": "&#x1F374;",
+            "itens": [
+                {
+                    "id": 301,
+                    "nome": "Jantinha",
+                    "descricao": "Arroz, Salpicão, Farofa e Vinagrete",
+                    "preco": 14.00,
+                    "img": "images/pratos/jantinha.jpg"
+                },
+                {
+                    "id": 302,
+                    "nome": "Somente Salpicão",
+                    "descricao": "Porção de salpicão caseiro",
+                    "preco": 15.00,
+                    "img": "images/pratos/salpicao.jpg"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "nome": "Bebidas",
+            "icone": "&#x1F964;",
+            "itens": [
+                {
+                    "id": 401,
+                    "nome": "Água Mineral",
+                    "descricao": "Água mineral sem gás",
+                    "preco": 3.00,
+                    "img": "images/bebidas/agua.jpg"
+                }
+            ]
+        }
+    ]
+}
