@@ -317,7 +317,7 @@ checkoutBtn.addEventListener("click", () => {
     const message = `Olá, gostaria de fazer o seguinte pedido:\n\n${itemsText}\n\n*Total: R$ ${total.toFixed(
       2
     )}*`;
-    const whatsappUrl = `https://wa.me/21964456892?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/5521964456892?text=${encodeURIComponent(
       message
     )}`;
 
