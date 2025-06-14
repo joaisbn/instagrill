@@ -71,7 +71,7 @@ function renderAllItems() {
       <div class="secao-categoria"></div>
     `;
     menuContainer.appendChild(section);
-    renderItems(category.itens, section.querySelector('.secao-categoria'));
+    renderItems(category.itens, section.querySelector(".secao-categoria"));
   });
 
   updateActiveButton("Todos");
@@ -93,7 +93,7 @@ function renderCategoryItems(categoryId) {
     <div class="secao-categoria"></div>
   `;
   menuContainer.appendChild(section);
-  renderItems(category.itens, section.querySelector('.secao-categoria'));
+  renderItems(category.itens, section.querySelector(".secao-categoria"));
 
   updateActiveButton(category.nome);
   setupCartEventDelegation();
@@ -102,7 +102,10 @@ function renderCategoryItems(categoryId) {
 // Atualizar botão ativo
 function updateActiveButton(activeCategoryName) {
   document.querySelectorAll(".categoria-botao").forEach((button) => {
-    button.classList.toggle("active", button.textContent === activeCategoryName);
+    button.classList.toggle(
+      "active",
+      button.textContent === activeCategoryName
+    );
   });
 }
 
@@ -115,11 +118,13 @@ function renderItems(items, container) {
     itemElement.className = "secao-item";
     itemElement.dataset.itemId = item.id;
     itemElement.innerHTML = `
-      <img src="${item.img || ''}" alt="${item.nome}" class="item-image">
+      <img src="${item.img || ""}" alt="${item.nome}" class="item-image">
       <div class="item-info">
         <h3 class="item-nome">${item.nome}</h3>
         <p class="item-descricao">${item.descricao}</p>
-        <div class="item-preco">R$ ${item.preco.toFixed(2).replace(".", ",")}</div>
+        <div class="item-preco">R$ ${item.preco
+          .toFixed(2)
+          .replace(".", ",")}</div>
         <button class="add-to-cart">Adicionar ao Carrinho</button>
       </div>
     `;
@@ -130,14 +135,14 @@ function renderItems(items, container) {
 // Configuração da delegação de eventos
 function setupCartEventDelegation() {
   // Remove event listeners antigos
-  document.querySelectorAll('.secao-categoria').forEach(container => {
+  document.querySelectorAll(".secao-categoria").forEach((container) => {
     container.replaceWith(container.cloneNode(true));
   });
 
   // Adiciona delegação de eventos
-  document.querySelectorAll('.secao-categoria').forEach(container => {
-    container.addEventListener('click', (e) => {
-      if (e.target.classList.contains('add-to-cart')) {
+  document.querySelectorAll(".secao-categoria").forEach((container) => {
+    container.addEventListener("click", (e) => {
+      if (e.target.classList.contains("add-to-cart")) {
         handleAddToCart(e);
       }
     });
@@ -150,7 +155,9 @@ function handleAddToCart(e) {
   const itemElement = button.closest(".secao-item");
   const name = itemElement.querySelector(".item-nome").textContent;
   const priceText = itemElement.querySelector(".item-preco").textContent;
-  const price = parseFloat(priceText.replace("R$", "").replace(",", ".").trim());
+  const price = parseFloat(
+    priceText.replace("R$", "").replace(",", ".").trim()
+  );
 
   addItemToCart(name, price);
 
@@ -180,11 +187,26 @@ function addItemToCart(name, price) {
   }
 
   updateCartCount();
+  saveCartToLocalStorage(); // Salva o carrinho no localStorage
 }
 
 function updateCartCount() {
   const count = cart.reduce((total, item) => total + item.quantity, 0);
   cartCount.textContent = count;
+}
+
+// Função para salvar o carrinho no localStorage
+function saveCartToLocalStorage() {
+  localStorage.setItem("instagrillCart", JSON.stringify(cart));
+}
+
+// Função para carregar o carrinho do localStorage
+function loadCartFromLocalStorage() {
+  const savedCart = localStorage.getItem("instagrillCart");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartCount();
+  }
 }
 
 function updateCartModal() {
@@ -254,18 +276,21 @@ function decreaseItem(index) {
   }
   updateCartModal();
   updateCartCount();
+  saveCartToLocalStorage();
 }
 
 function increaseItem(index) {
   cart[index].quantity += 1;
   updateCartModal();
   updateCartCount();
+  saveCartToLocalStorage();
 }
 
 function removeItem(index) {
   cart.splice(index, 1);
   updateCartModal();
   updateCartCount();
+  saveCartToLocalStorage();
 }
 
 // Finalizar pedido
@@ -276,16 +301,29 @@ checkoutBtn.addEventListener("click", () => {
   checkoutBtn.classList.add("loading");
 
   setTimeout(() => {
-    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
     const itemsText = cart
-      .map(item => `${item.name} (${item.quantity}x) - R$ ${(item.price * item.quantity).toFixed(2)}`)
+      .map(
+        (item) =>
+          `- ${item.name} (${item.quantity}x): R$ ${(
+            item.price * item.quantity
+          ).toFixed(2)}`
+      )
       .join("\n");
 
-    const message = `Olá, gostaria de fazer o seguinte pedido:\n\n${itemsText}\n\nTotal: R$ ${total.toFixed(2)}`;
-    const whatsappUrl = `https://wa.me/21999999999?text=${encodeURIComponent(message)}`;
+    const message = `Olá, gostaria de fazer o seguinte pedido:\n\n${itemsText}\n\n*Total: R$ ${total.toFixed(
+      2
+    )}*`;
+    const whatsappUrl = `https://wa.me/21999999999?text=${encodeURIComponent(
+      message
+    )}`;
 
     window.open(whatsappUrl, "_blank");
     cart = [];
+    localStorage.removeItem("instagrillCart"); // Limpa o localStorage
     updateCartModal();
     updateCartCount();
     checkoutBtn.textContent = "Finalizar Pedido";
@@ -297,6 +335,7 @@ checkoutBtn.addEventListener("click", () => {
 // Inicialização
 document.addEventListener("DOMContentLoaded", () => {
   loadMenuData();
+  loadCartFromLocalStorage(); // Carrega o carrinho do localStorage
 
   document.getElementById("cart").addEventListener("click", () => {
     updateCartModal();
@@ -312,4 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cartModal.style.display = "none";
     }
   });
+
+  updateCartModal(); // Atualiza o modal com os itens carregados
 });
